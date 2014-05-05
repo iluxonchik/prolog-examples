@@ -18,7 +18,7 @@ minC(_, Y, Y):- !.
 join([], L2, L2):- !.
 join(L1, [], L1):- !.
 join([P1|R1], [P2|R2], [P1|L]) :- P1 < P2, ! , join(R1, [P2|R2], L).
-join(L1, [P2|R2], [P2|L]) :- !, join(L1, R2, L).
+join([P1|R1], [P2|R2], [P2|L]) :- P1 >= P2, ! , join([P1|R1], R2, L).
 
 % Joins two ordered lists into an ordered list (like in mergesort). This version removes the repetitions
 joinNR([], L2, L2) :- !.
@@ -31,3 +31,17 @@ joinNR([P1|R1], [P2|R2], [P2|L]) :- P1 > P2, ! , joinNR([P1|R1], R2, L). % NOTE:
 separate([], [], []) :- !.
 separate([P|R], [P|Pos], Neg) :- P >= 0, !, separate(R, Pos, Neg).
 separate([P|R], Pos, [P|Neg]) :- P < 0, ! , separate(R, Pos, Neg).
+
+% An implementation of the IF A THEN B ELSE C conditional logic
+ifThenElse1(A, B, _) :- A, !, B. % if A then B
+ifThenElse1(_,_,_) :- C. % else C
+
+ifThenElse2(A, B, C) :- A, ! , B ; C. % the "%" acts like an "OR"
+
+% notEqual(A, B) evaluates true if A is different from B
+notEqual1(A, B) :- A \= B.
+
+notEqual2(A, B) :- not(A = B).
+
+notEqual3(A, A) :- !, fail. % basically if both arguments are the same, fail 
+notEqual3(_, _). % if it's something else, just unify
