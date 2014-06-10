@@ -14,3 +14,10 @@ join([P|R], L1, [P|L2]) :- join(R, L1, L2).
 invert([], []).
 invert([P|R], I) :- invert(R, I1), join(I1, [P], I).
 % uses the join predicate to add the head of the list L1(or part of it) to the list I(inverted L1)
+
+sel([P|R], P, R).
+sel([P|R], E, [P|S]) :- sel(R, E, S).
+
+
+permute([], []).
+permute([X|R], L) :- permute(R, L1), sel(X, L, L1)
