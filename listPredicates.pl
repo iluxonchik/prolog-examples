@@ -21,3 +21,6 @@ sel([P|R], E, [P|S]) :- sel(R, E, S).
 
 permute([], []).
 permute([X|R], L) :- permute(R, L1), sel(X, L, L1)
+
+invert2([],I,I).
+invert2([P|R], Ac, I):- invert2(R, [P|Ac],I).
